@@ -3,6 +3,7 @@ import {Socket, Server} from 'socket.io';
 import {v4} from 'uuid';
 import {ChatUserInfo} from "../models/ChatUserInfo";
 import {ROBIN_THE_BOT_SOCKET_ID, ROBIN_THE_BOT_USER_ID, ROBIN_THE_BOT_USER_NAME} from "../consts/RobinTheBotConsts";
+import socketMessageEmitterService from "./SocketMessageEmitterService";
 
 
 
@@ -12,7 +13,7 @@ const HANDSHAKE_EVENT_NAME = "handshake";
 
 export class ServerSocketService {
     public static instance: ServerSocketService;
-    public io: Server;
+    // public theServer: Server;
 
     // public users: { [uid: string]: string }; // map of userId to socketId
     public allUserInfos: ChatUserInfo[]; // = [{userId: 'ROBIN_ID', userName: 'Robin The Bot', socketId: ROBIT_THE_BOT_SOCKET_ID}];
@@ -26,7 +27,7 @@ export class ServerSocketService {
             socketId: ROBIN_THE_BOT_SOCKET_ID
         }];
 
-        this.io = new Server(server, {
+        const theServer = new Server(server, {
             serveClient: false,
             pingInterval: 10_000,
             pingTimeout: 5_000,
@@ -36,7 +37,9 @@ export class ServerSocketService {
             }
         })
 
-        this.io.on('connect', this.startListeners);
+        theServer.on('connect', this.startListeners);
+
+        socketMessageEmitterService.setTheServer(theServer);
 
         console.info('Socket IO started ...');
     }
@@ -72,7 +75,7 @@ export class ServerSocketService {
             console.info(`Sending callback for handshake with uid ${userId} and users`, allSocketIds);
             callback(userId, this.allUserInfos);
 
-            this.EmitMessage(
+            socketMessageEmitterService.EmitMessage(
                 'user_connected',
                 allSocketIds.filter(id => id !== socket.id),
                 this.allUserInfos
@@ -90,7 +93,7 @@ export class ServerSocketService {
                 this.allUserInfos = this.allUserInfos.filter(userInfo => userInfo.userId !== userId);
                 //delete this.users[userId];
                 //const userSocketIds = Object.values(this.users);
-                this.EmitMessage('user_disconnected', this.getAllSocketIds(), this.allUserInfos);
+                socketMessageEmitterService.EmitMessage('user_disconnected', this.getAllSocketIds(), this.allUserInfos);
             }
         });
 
@@ -106,12 +109,12 @@ export class ServerSocketService {
         //return Object.keys(this.users).find(uid => this.users[uid] === socketId);
     }
 
-    public EmitMessage = (name: string, socketIds: string[], payload: any): void => {
-        console.info('Emitting event: ' + name + ' with payload ', payload);
-        socketIds = socketIds.filter((socketId) => ROBIN_THE_BOT_SOCKET_ID !== socketId);
-        socketIds.forEach(socketId => payload ? this.io.to(socketId).emit(name, payload) : this.io.to(socketId).emit(name));
-
-    }
+    // public EmitMessage = (name: string, socketIds: string[], payload: any): void => {
+    //     console.info('Emitting event: ' + name + ' with payload ', payload);
+    //     socketIds = socketIds.filter((socketId) => ROBIN_THE_BOT_SOCKET_ID !== socketId);
+    //     socketIds.forEach(socketId => payload ? this.theServer.to(socketId).emit(name, payload) : this.theServer.to(socketId).emit(name));
+    //
+    // }
 }
 
 
