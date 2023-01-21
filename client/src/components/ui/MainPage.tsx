@@ -2,69 +2,19 @@ import React, {ReactElement, useEffect, useState} from "react";
 import {io, Socket} from "socket.io-client";
 import LoginPage from "./LoginPage";
 import ChatPage from "./ChatPage";
-import {ManagerOptions} from "socket.io-client/build/esm/manager";
-import {SocketOptions} from "socket.io-client/build/esm/socket";
 import {ChatUserInfo} from "../models/ChatUserInfo";
+import {THE_SOCKET_SETTINGS} from "../_settings/ChatSocketSettings";
+import socketConnectionEventHandlers from "../services/SocketConnectionEventHandlers";
 
 interface Props {
     // prop1: string
 }
 
-// interface LoggedInUserInfo {
-//     userId: string,
-//     userName: string,
-//     socket: Socket
-// }
-
-
-//
-// interface ChatUserInfo {
-//     userId: string,
-//     userName: string,
-//     socketId: string
-// }
-
-type SocketSettingsType = {
-    uri: string,
-    opts?: Partial<ManagerOptions & SocketOptions>
-}
-
-interface ServerToClientEvents {
-    noArg: () => void;
-    basicEmit: (a: number, b: string, c: Buffer) => void;
-    withAck: (d: string, callback: (e: number) => void) => void;
-}
-
-interface ClientToServerEvents {
-    hello: () => void,
-    handshake: (userName: string) => void
-}
-
-interface InterServerEvents {
-    ping: () => void;
-}
-
-interface SocketData {
-    name: string;
-    age: number;
-}
-
-const THE_SOCKET_SETTINGS: SocketSettingsType = {
-    uri: 'ws://localhost:1337',
-    opts: {
-        reconnectionAttempts: 5,
-        reconnectionDelay: 5000,
-        autoConnect: false
-    }
-}
-
 const MainPage: React.FC<Props> = (props: Props): ReactElement => {
-    // const [userId, setUserId] = useState<string | null>(null);
-    // const [userName, setUserName] = useState<string | null>(null);
     const [theSocket, setTheSocket] = useState<Socket | null>(null);
     const [allUserInfos, setAllUserInfos] = useState<ChatUserInfo[]>([]);
 
-    function disconnectTheSocket() {
+    const disconnectTheSocket = () => {
         console.log('disconnecting the socket [1]', theSocket);
         if (theSocket) {
             console.log(`disconnecting the socket [2] with id ${theSocket.id}`)
@@ -98,13 +48,7 @@ const MainPage: React.FC<Props> = (props: Props): ReactElement => {
            debugger;
            setAllUserInfos(allUserInfos);
         });
-
-        // socket.emit('handshake', {callback: (userId: string, allUserInfos: ChatUserInfo[]) => {
-        //     console.log('got handshake response');
-        //     }})
-        // ;
     }
-
 
     const startListeners = (socket: Socket) => {
         //  user connected event
@@ -115,33 +59,17 @@ const MainPage: React.FC<Props> = (props: Props): ReactElement => {
         })
 
         socket.on('user_disconnected', (allUsers: ChatUserInfo[]) => {
-            // console.info('User Disconnected: '+ uid);
+            console.info('get user_disconnected event with payload ', allUsers);
             // SocketDispatch({type: 'remove_user', payload: uid});
             setAllUserInfos(allUsers);
         })
 
+        socketConnectionEventHandlers.registerToConnectionEvents(socket);
 
-        socket.io.on('reconnect', (attempt) => {
-            console.info('Reconnected on attempt: ' + attempt);
-        })
-
-        socket.io.on('reconnect_attempt', (attempt: number) => {
-            console.info('Reconnection attempt:' + attempt);
-        })
-
-        socket.io.on('reconnect_error', (error: Error) => {
-            console.info('Reconnect Error ', error);
-        })
-
-        socket.io.on('reconnect_failed', () => {
-            console.info('Reconnection failure');
-            alert('Unable to connect to the web socket.')
-        })
     };
 
 
     const disconnectHandler = (): void => {
-        // setUserId(null);
         if (theSocket) {
             theSocket.disconnect();
         }
