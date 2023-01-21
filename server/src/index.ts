@@ -3,7 +3,8 @@
 
 import http from 'http';
 import express from 'express';
-import { ServerSocketService } from './services/ServerSocketService';
+import { SocketServerInitializerService } from './services/socket_server_init/SocketServerInitializerService';
+import socketInfosHolder from "./services/data_holders/SocketInfosHolder";
 
 const application = express();
 
@@ -11,7 +12,7 @@ const application = express();
 const httpServer = http.createServer(application);
 
 /** Start Socket */
-new ServerSocketService(httpServer);
+new SocketServerInitializerService(httpServer);
 
 /** Log the request */
 application.use((req, res, next) => {
@@ -48,7 +49,7 @@ application.get('/ping', (req, res, next) => {
 
 /** Socket Information */
 application.get('/status', (req, res, next) => {
-    return res.status(200).json({ users: ServerSocketService.instance.allUserInfos });
+    return res.status(200).json({ users: socketInfosHolder.allUserInfos });
 });
 
 /** Error handling */
@@ -60,5 +61,6 @@ application.use((req, res, next) => {
     });
 });
 
+const PORT = 1337;
 /** Listen */
-httpServer.listen(1337, () => console.info(`Server is running`));
+httpServer.listen(PORT, () => console.info(`Server is running`));

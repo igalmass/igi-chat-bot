@@ -3,7 +3,6 @@ import {ChatUserInfo} from "../models/ChatUserInfo";
 import ConnectedUsersComponent from "./ConnectedUsersComponent";
 
 interface Props {
-    // prop1: string
     disconnectHandler: () => void,
     allUserInfos: ChatUserInfo[]
 }
