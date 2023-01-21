@@ -3,7 +3,7 @@
 
 import http from 'http';
 import express from 'express';
-import { ServerSocket } from './socket';
+import { ServerSocketService } from './services/ServerSocketService';
 
 const application = express();
 
@@ -11,7 +11,7 @@ const application = express();
 const httpServer = http.createServer(application);
 
 /** Start Socket */
-new ServerSocket(httpServer);
+new ServerSocketService(httpServer);
 
 /** Log the request */
 application.use((req, res, next) => {
@@ -48,7 +48,7 @@ application.get('/ping', (req, res, next) => {
 
 /** Socket Information */
 application.get('/status', (req, res, next) => {
-    return res.status(200).json({ users: ServerSocket.instance.allUserInfos });
+    return res.status(200).json({ users: ServerSocketService.instance.allUserInfos });
 });
 
 /** Error handling */

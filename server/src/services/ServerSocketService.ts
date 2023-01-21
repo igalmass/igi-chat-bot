@@ -1,28 +1,31 @@
 import {Server as HttpServer} from 'http';
 import {Socket, Server} from 'socket.io';
 import {v4} from 'uuid';
+import {ChatUserInfo} from "../models/ChatUserInfo";
+import {ROBIN_THE_BOT_SOCKET_ID, ROBIN_THE_BOT_USER_ID, ROBIN_THE_BOT_USER_NAME} from "../consts/RobinTheBotConsts";
 
-type UserInfoType = {
-    userId: string,
-    socketId: string,
-    userName: string
-}
+
 
 const USER_CONNECTED_EVENT = "user_connected";
 const HANDSHAKE_EVENT_NAME = "handshake";
 
 
-export class ServerSocket {
-    public static instance: ServerSocket;
+export class ServerSocketService {
+    public static instance: ServerSocketService;
     public io: Server;
 
     // public users: { [uid: string]: string }; // map of userId to socketId
-    public allUserInfos: UserInfoType[] = [];
+    public allUserInfos: ChatUserInfo[]; // = [{userId: 'ROBIN_ID', userName: 'Robin The Bot', socketId: ROBIT_THE_BOT_SOCKET_ID}];
 
     constructor(server: HttpServer) {
-        ServerSocket.instance = this;
+        ServerSocketService.instance = this;
         // this.users = {};
-        this.allUserInfos = [];
+        this.allUserInfos = [ {
+            userId: ROBIN_THE_BOT_USER_ID,
+            userName: ROBIN_THE_BOT_USER_NAME,
+            socketId: ROBIN_THE_BOT_SOCKET_ID
+        }];
+
         this.io = new Server(server, {
             serveClient: false,
             pingInterval: 10_000,
@@ -41,8 +44,7 @@ export class ServerSocket {
     public startListeners = (socket: Socket) => {
         console.info('Message received from ' + socket.id);
 
-        socket.on('handshake',  (userName, callback: (userId: string, users: string[]) => void) => {
-            debugger;
+        socket.on('handshake',  (userName, callback: (userId: string, users: ChatUserInfo[]) => void) => {
             console.log('Handshake received from ' + socket.id);
             console.log(`The new userName is ${userName}`);
 
@@ -56,7 +58,7 @@ export class ServerSocket {
 
                 if (userId) {
                     console.info('Sending callback for reconnect ...');
-                    callback(userId, allSocketIds);
+                    callback(userId, this.allUserInfos);
                     return;
                 }
             }
@@ -64,16 +66,16 @@ export class ServerSocket {
             //  create a new user
             const userId = v4();
             // this.users[userId] = socket.id;
-            this.allUserInfos.push({socketId: socket.id, userId: userId, userName: "bilbo"})
+            this.allUserInfos.push({socketId: socket.id, userId: userId, userName})
             allSocketIds = this.getAllSocketIds(); // Object.values(this.users);
 
             console.info(`Sending callback for handshake with uid ${userId} and users`, allSocketIds);
-            callback(userId, allSocketIds);
+            callback(userId, this.allUserInfos);
 
-            this.SendMessage(
+            this.EmitMessage(
                 'user_connected',
                 allSocketIds.filter(id => id !== socket.id),
-                allSocketIds
+                this.allUserInfos
             )
 
         });
@@ -88,25 +90,25 @@ export class ServerSocket {
                 this.allUserInfos = this.allUserInfos.filter(userInfo => userInfo.userId !== userId);
                 //delete this.users[userId];
                 //const userSocketIds = Object.values(this.users);
-                this.SendMessage('user_disconnected', this.getAllSocketIds(), socket.id);
+                this.EmitMessage('user_disconnected', this.getAllSocketIds(), this.allUserInfos);
             }
         });
 
     }
 
     private getAllSocketIds(): string[] {
-        return this.allUserInfos.map((cur: UserInfoType) => cur.socketId);
+        return this.allUserInfos.map((cur: ChatUserInfo) => cur.socketId);
     }
 
     public getUserIdBySocketId = (socketId: string): string | undefined => {
-        const result = this.allUserInfos.find((cur: UserInfoType) => cur.socketId === socketId);
+        const result = this.allUserInfos.find((cur: ChatUserInfo) => cur.socketId === socketId);
         return result?.userId;
         //return Object.keys(this.users).find(uid => this.users[uid] === socketId);
     }
 
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    public SendMessage = (name: string, socketIds: string[], payload?: Object): void => {
+    public EmitMessage = (name: string, socketIds: string[], payload: any): void => {
         console.info('Emitting event: ' + name + ' with payload ', payload);
+        socketIds = socketIds.filter((socketId) => ROBIN_THE_BOT_SOCKET_ID !== socketId);
         socketIds.forEach(socketId => payload ? this.io.to(socketId).emit(name, payload) : this.io.to(socketId).emit(name));
 
     }

@@ -7,7 +7,8 @@ interface Props {
 }
 
 const LoginPage: React.FC<Props> = (props: Props): ReactElement => {
-    const [userName, setUserName] = useState("Dando Hagadol " + _.random(1, 1000000));
+    const [userName, setUserName] = useState("Bilbo Hagadol " + _.random(1, 1000000));
+
 
     const onUserNameChangedHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUserName(event.target.value);

@@ -4,6 +4,7 @@ import LoginPage from "./LoginPage";
 import ChatPage from "./ChatPage";
 import {ManagerOptions} from "socket.io-client/build/esm/manager";
 import {SocketOptions} from "socket.io-client/build/esm/socket";
+import {ChatUserInfo} from "../models/ChatUserInfo";
 
 interface Props {
     // prop1: string
@@ -16,12 +17,12 @@ interface Props {
 // }
 
 
-
-interface ChatUserInfo {
-    userId: string,
-    userName: string,
-    socketId: string
-}
+//
+// interface ChatUserInfo {
+//     userId: string,
+//     userName: string,
+//     socketId: string
+// }
 
 type SocketSettingsType = {
     uri: string,
@@ -58,9 +59,10 @@ const THE_SOCKET_SETTINGS: SocketSettingsType = {
 }
 
 const MainPage: React.FC<Props> = (props: Props): ReactElement => {
-    const [userId, setUserId] = useState<string | null>(null);
-    //const [userName, setUserName] = useState<string | null>(null);
+    // const [userId, setUserId] = useState<string | null>(null);
+    // const [userName, setUserName] = useState<string | null>(null);
     const [theSocket, setTheSocket] = useState<Socket | null>(null);
+    const [allUserInfos, setAllUserInfos] = useState<ChatUserInfo[]>([]);
 
     function disconnectTheSocket() {
         console.log('disconnecting the socket [1]', theSocket);
@@ -94,6 +96,7 @@ const MainPage: React.FC<Props> = (props: Props): ReactElement => {
         socket.emit('handshake', userName, (userId: string, allUserInfos: ChatUserInfo[]) => {
            console.log('got handshake response');
            debugger;
+           setAllUserInfos(allUserInfos);
         });
 
         // socket.emit('handshake', {callback: (userId: string, allUserInfos: ChatUserInfo[]) => {
@@ -105,14 +108,16 @@ const MainPage: React.FC<Props> = (props: Props): ReactElement => {
 
     const startListeners = (socket: Socket) => {
         //  user connected event
-        socket.on('user_connected', (users: string[]) => {
-            console.info('User connected, new user list received.', users);
+        socket.on('user_connected', (allUsers: ChatUserInfo[]) => {
+            console.info('User connected, new user list received.', allUsers);
+            setAllUserInfos(allUsers);
             // SocketDispatch({type: 'update_users', payload: users});
         })
 
-        socket.on('user_disconnected', (uid: string) => {
-            console.info('User Disconnected: '+ uid);
+        socket.on('user_disconnected', (allUsers: ChatUserInfo[]) => {
+            // console.info('User Disconnected: '+ uid);
             // SocketDispatch({type: 'remove_user', payload: uid});
+            setAllUserInfos(allUsers);
         })
 
 
@@ -147,7 +152,7 @@ const MainPage: React.FC<Props> = (props: Props): ReactElement => {
         <>
             Hi ! I'm MainPage Component!
             {!isConnected() && <LoginPage connectHandler={connectHandler}/>}
-            {isConnected() && <ChatPage disconnectHandler={disconnectHandler}/> }
+            {isConnected() && <ChatPage disconnectHandler={disconnectHandler} allUserInfos={allUserInfos}/> }
         </>
     </div>
 }
