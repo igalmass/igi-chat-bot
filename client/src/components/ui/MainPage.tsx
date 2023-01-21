@@ -76,11 +76,11 @@ const MainPage: React.FC<Props> = (props: Props): ReactElement => {
         setTheSocket(null);
     }
 
-    return <div style={{height: '100%', background: 'pink'}}>
+    return <div style={{height: '100%'}}>
         <>
-            Hi ! I'm MainPage Component!
+            {/*Hi ! I'm MainPage Component!*/}
             {!isConnected() && <LoginPage connectHandler={connectHandler}/>}
-            {isConnected() && <ChatPage disconnectHandler={disconnectHandler} allUserInfos={allUserInfos}/> }
+            {isConnected() && <ChatPage disconnectHandler={disconnectHandler} allUserInfos={allUserInfos} socketId={theSocket?.id}/> }
         </>
     </div>
 }

@@ -1,5 +1,7 @@
 import React, {FormEvent, ReactElement, useState} from "react";
 import _ from "lodash";
+import {Button, TextField} from "@mui/material";
+import styled from "@emotion/styled";
 
 interface Props {
     // prop1: string
@@ -19,14 +21,43 @@ const LoginPage: React.FC<Props> = (props: Props): ReactElement => {
         props.connectHandler(userName);
     }
 
-    return <div style={{border: '1px solid blue', padding: '10px'}}>
-        Hi ! I'm LoginPage Component!
+    const MyButton = styled(Button)`
+      margin: 30px;
+    `
+
+    const FormDiv = styled('div')`
+      display: flex; 
+      flex-direction: row;
+      justify-content: center;
+      align-items: center; 
+      margin-top: 30px;
+      
+    `;
+
+    const MainDiv = styled('div')`
+      padding: 10px; 
+      display: flex; 
+      justify-content: center; 
+      flex-direction: column;
+      align-items: center;
+    `;
+
+
+
+
+    return <MainDiv>
+        <h2>Welcome to the chat</h2>
+        <h3>Robin the bot is waiting just for you!</h3>
+        <h3>Please enter your name and click the "Connect" button</h3>
         <form onSubmit={onSubmit}>
-            <label htmlFor="userName">User name:</label>
-            <input type="text" name="userName" onChange={onUserNameChangedHandler} value={userName} minLength={8} required/>
-            <button type="submit">Connect</button>
+            {/*<FormDiv style={{display: 'flex', flexDirection: "row", justifyContent: "center", alignItems: "center", marginTop: 30}}>*/}
+            <FormDiv>
+                <TextField variant="outlined" inputProps={{minLength: 12}} required value={userName} name="userName"
+                           onChange={onUserNameChangedHandler} label="User Name:" aria-label="User Name"/>
+                <MyButton variant="outlined" type="submit">Connect</MyButton>
+            </FormDiv>
         </form>
-    </div>
+    </MainDiv>
 }
 
 export default LoginPage;
