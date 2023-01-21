@@ -7,7 +7,7 @@ import MessagesComponent from "./messages-right-pane/MessagesComponent";
 interface Props {
     disconnectHandler: () => void,
     allUserInfos: ChatUserInfo[],
-    socketId: string | undefined
+    isLoggenInUserBySocketId: (socketId: string) => boolean
 }
 
 const MessagesDiv = styled('div')`
@@ -22,14 +22,16 @@ const MainDiv = styled('div')`
   display: flex;
   margin-top: 20px;
   //margin: 10px 300px;
-  
+
 `
 
 const ChatPage: React.FC<Props> = (props: Props): ReactElement => {
 
     return <MainDiv>
-        <ConnectedUsersComponent allUserInfos={props.allUserInfos} socketId={props.socketId} disconnectHandler={props.disconnectHandler}/>
-        <MessagesComponent />
+        <ConnectedUsersComponent allUserInfos={props.allUserInfos}
+                                 disconnectHandler={props.disconnectHandler}
+                                 isLoggedInUserBySocketId={props.isLoggenInUserBySocketId}/>
+        <MessagesComponent/>
     </MainDiv>
 }
 

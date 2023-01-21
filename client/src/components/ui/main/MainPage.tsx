@@ -33,9 +33,8 @@ const MainPage: React.FC<Props> = (props: Props): ReactElement => {
     }
 
     const connectHandler = (userName: string) => {
-        // setUserName(userName);
         const newSocket: Socket = io(THE_SOCKET_SETTINGS.uri, THE_SOCKET_SETTINGS.opts);
-        newSocket.connect(); // todo: what happens in case of an error?
+        newSocket.connect();
         setTheSocket(newSocket);
         startListeners(newSocket);
         sendHandshake(newSocket, userName);
@@ -44,9 +43,9 @@ const MainPage: React.FC<Props> = (props: Props): ReactElement => {
     const sendHandshake = (socket: Socket, userName: string) => {
         console.log('sending handshake ...');
         socket.emit('handshake', userName, (userId: string, allUserInfos: ChatUserInfo[]) => {
-           console.log('got handshake response');
-           debugger;
-           setAllUserInfos(allUserInfos);
+            console.log('got handshake response');
+            debugger;
+            setAllUserInfos(allUserInfos);
         });
     }
 
@@ -65,7 +64,6 @@ const MainPage: React.FC<Props> = (props: Props): ReactElement => {
         })
 
         socketConnectionEventHandlers.registerToConnectionEvents(socket);
-
     };
 
 
@@ -76,11 +74,19 @@ const MainPage: React.FC<Props> = (props: Props): ReactElement => {
         setTheSocket(null);
     }
 
+    const isLoggenInUserBySocketId = (socketId: string): boolean => {
+        return theSocket?.id === socketId;
+    }
+
+
     return <div style={{height: '100%'}}>
         <>
             {/*Hi ! I'm MainPage Component!*/}
             {!isConnected() && <LoginPage connectHandler={connectHandler}/>}
-            {isConnected() && <ChatPage disconnectHandler={disconnectHandler} allUserInfos={allUserInfos} socketId={theSocket?.id}/> }
+            {isConnected() &&
+                <ChatPage disconnectHandler={disconnectHandler}
+                          allUserInfos={allUserInfos}
+                          isLoggenInUserBySocketId={isLoggenInUserBySocketId}/>}
         </>
     </div>
 }

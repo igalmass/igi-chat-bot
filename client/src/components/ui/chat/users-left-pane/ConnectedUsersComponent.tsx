@@ -4,10 +4,9 @@ import styled from "@emotion/styled";
 import {Button} from "@mui/material";
 
 interface Props {
-    // prop1: string
     allUserInfos: ChatUserInfo[],
-    socketId: string | undefined,
-    disconnectHandler: () => void
+    disconnectHandler: () => void,
+    isLoggedInUserBySocketId: (socketId: string) => boolean
 }
 
 const UsersDiv = styled('div')`
@@ -27,11 +26,12 @@ const ConnectedUsersLabel = styled('h3')`
 
 
 const ConnectedUsersComponent: React.FC<Props> = (props: Props): ReactElement => {
+
+
     const getUserDescription = (curUserInfo: ChatUserInfo) => {
-        const isCurrentUserLoggedIn = curUserInfo.socketId === props.socketId;
 
         let result = `${curUserInfo.userName}`;
-        if (isCurrentUserLoggedIn) {
+        if (props.isLoggedInUserBySocketId(curUserInfo.socketId)) {
             result = result + " (me)";
         }
 

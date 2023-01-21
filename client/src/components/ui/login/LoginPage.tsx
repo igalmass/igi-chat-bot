@@ -4,7 +4,6 @@ import {Button, TextField} from "@mui/material";
 import styled from "@emotion/styled";
 
 interface Props {
-    // prop1: string
     connectHandler: (userName: string) => void
 }
 
@@ -47,7 +46,6 @@ const LoginPage: React.FC<Props> = (props: Props): ReactElement => {
         <h3>Robin the bot is waiting just for you!</h3>
         <h3>Please enter your name and click the "Connect" button</h3>
         <form onSubmit={onSubmit}>
-            {/*<FormDiv style={{display: 'flex', flexDirection: "row", justifyContent: "center", alignItems: "center", marginTop: 30}}>*/}
             <FormDiv>
                 <TextField variant="outlined" inputProps={{minLength: 12}} required value={userName} name="userName"
                            onChange={onUserNameChangedHandler} label="User Name:" aria-label="User Name"/>

@@ -12,6 +12,7 @@ const MessagesDiv = styled('div')`
   flex-grow: 1;
 `;
 
+
 const MessagesComponent: React.FC<Props> = (props: Props): ReactElement => {
     return <MessagesDiv>
         Hi ! I'm MessagesComponent Component!
