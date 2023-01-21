@@ -1,10 +1,10 @@
 import React, {ReactElement, useEffect, useState} from "react";
 import {io, Socket} from "socket.io-client";
-import LoginPage from "./LoginPage";
-import ChatPage from "./ChatPage";
-import {ChatUserInfo} from "../models/ChatUserInfo";
-import {THE_SOCKET_SETTINGS} from "../_settings/ChatSocketSettings";
-import socketConnectionEventHandlers from "../services/SocketConnectionEventHandlers";
+import LoginPage from "../login/LoginPage";
+import ChatPage from "../chat/ChatPage";
+import {ChatUserInfo} from "../../models/ChatUserInfo";
+import {THE_SOCKET_SETTINGS} from "../../_settings/ChatSocketSettings";
+import socketConnectionEventHandlers from "../../services/SocketConnectionEventHandlers";
 
 interface Props {
     // prop1: string

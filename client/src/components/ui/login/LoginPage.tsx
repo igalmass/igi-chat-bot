@@ -42,9 +42,6 @@ const LoginPage: React.FC<Props> = (props: Props): ReactElement => {
       align-items: center;
     `;
 
-
-
-
     return <MainDiv>
         <h2>Welcome to the chat</h2>
         <h3>Robin the bot is waiting just for you!</h3>
