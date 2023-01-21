@@ -1,0 +1,44 @@
+@startuml
+actor client1
+actor client2
+control server
+database chatDatabase
+
+autonumber
+
+=== Connect user1 ==
+
+client1 -> server: Connect to socket
+server -> client1: (response) Connected
+
+client1 -> server: handshake ({socketId1, userName1})
+server -> server: generate\nuserId1
+server -> server: save new user
+
+
+server -> client1: responseCallback(allUserInfos)\n([{sockerId1, userId1, userName1}]))
+client1 -> client1: update local\nuser infos
+
+=== Connect user2 ==
+
+client2 -> server: Connect to socket
+server -> client2: (response) Connected
+client2 -> server: handshake({socketId2, userName2})
+server -> server: generate\nuserId2
+server -> server: save new user
+server -> client2: responseCallback(allUserInfos)\n[{socketId1, userId1, userName1},\n{socketId2, userId2, userName2}]
+server -> client1: emit('update_users', allUserInfos)\n[{socketId1, userId1, userName1},\n{socketId2, userId2, userName2}]
+
+
+
+
+=== Disconnect user1 ==
+client1 -> server: disconnect(socketId1)
+client1 -> client1: change state\nto disconnected
+server -> server: getUserId1\n(by socketId1))
+server -> server: remove user\n(by userId1)
+server -> client2: emit('user_was_removed', userId1)
+client2 -> client2: remove userId1\nfrom local user infos
+
+
+@enduml

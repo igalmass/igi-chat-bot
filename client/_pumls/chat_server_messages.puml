@@ -1,0 +1,41 @@
+@startuml
+actor client1
+actor client2
+actor client3
+
+control server
+
+autonumber
+
+== Send Chat Message from client ==
+client1 -> server: sendMessage: ('new_message', 'How are you doing?', userId1)
+server -> server: store the message in local storage
+
+server -> client2: emit('new_message', 'How are you doing?', userId1)
+server -> client3: emit('new_message', 'How are you doing?', userId1)
+
+note over server
+'hello
+(BL): Is there a bot answer?
+if yes -
+    emit('new_message',
+         I'm fine. Thanks for asking. What about you?',
+         botUserId)
+if not - do nothing
+end note
+
+== Howto check if there is a bot answer ==
+note over server
+    if it is a question
+    (an assumption - a question is a sentence that ends with '?'.
+     We can improve that in the future)
+     loop over all the past messages
+     if message[i] is identical to the current message,
+     return message[i + 1]
+     (note: in the future we might also want to check that the message[i+1]
+      is *not* from the user sending message[i] (the current question),
+      and not from the chatBot)
+
+end note
+
+@enduml
