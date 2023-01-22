@@ -1,10 +1,11 @@
 import React, {ReactElement, useEffect, useState} from "react";
 import {io, Socket} from "socket.io-client";
 import LoginPage from "../login/LoginPage";
-import ChatPage from "../chat/ChatPage";
+import ChatMainPage from "../chat/chat-main-page/ChatMainPage";
 import {ChatUserInfo} from "../../models/ChatUserInfo";
 import {THE_SOCKET_SETTINGS} from "../../_settings/ChatSocketSettings";
 import socketConnectionEventHandlers from "../../services/SocketConnectionEventHandlers";
+import {ALL_THE_MESSAGES, ChatMessage} from "../../models/ChatMessage";
 
 interface Props {
     // prop1: string
@@ -13,6 +14,7 @@ interface Props {
 const MainPage: React.FC<Props> = (props: Props): ReactElement => {
     const [theSocket, setTheSocket] = useState<Socket | null>(null);
     const [allUserInfos, setAllUserInfos] = useState<ChatUserInfo[]>([]);
+    const [allTheMessages, setAllTheMessages] = useState<ChatMessage[]>(ALL_THE_MESSAGES);
 
     const disconnectTheSocket = () => {
         console.log('disconnecting the socket [1]', theSocket);
@@ -78,15 +80,33 @@ const MainPage: React.FC<Props> = (props: Props): ReactElement => {
         return theSocket?.id === socketId;
     }
 
+    const isLoggedInUserByUserId = (userId: string): boolean => {
+        return false;
+    }
+
+    const getUserName = (userId: string): string => {
+        const chatUser = allUserInfos.find(curUserInfo => curUserInfo.userId === userId);
+
+        let result = `User #${userId}`;
+        if (chatUser) {
+            result = chatUser.userName;
+        }
+
+        return result;
+    }
 
     return <div style={{height: '100%'}}>
         <>
             {/*Hi ! I'm MainPage Component!*/}
             {!isConnected() && <LoginPage connectHandler={connectHandler}/>}
             {isConnected() &&
-                <ChatPage disconnectHandler={disconnectHandler}
-                          allUserInfos={allUserInfos}
-                          isLoggenInUserBySocketId={isLoggenInUserBySocketId}/>}
+                <ChatMainPage disconnectHandler={disconnectHandler}
+                              allUserInfos={allUserInfos}
+                              allTheMessages={allTheMessages}
+                              isLoggenInUserBySocketId={isLoggenInUserBySocketId}
+                              isLoggedInUserByUserId={isLoggedInUserByUserId}
+                              getUserName={getUserName}
+                />}
         </>
     </div>
 }

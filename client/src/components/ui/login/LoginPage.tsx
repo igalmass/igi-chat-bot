@@ -1,7 +1,7 @@
 import React, {FormEvent, ReactElement, useState} from "react";
 import _ from "lodash";
-import {Button, TextField} from "@mui/material";
-import styled from "@emotion/styled";
+import {TextField} from "@mui/material";
+import {MainDiv, FormDiv, MyButton} from './LoginPageStyled'
 
 interface Props {
     connectHandler: (userName: string) => void
@@ -20,26 +20,6 @@ const LoginPage: React.FC<Props> = (props: Props): ReactElement => {
         props.connectHandler(userName);
     }
 
-    const MyButton = styled(Button)`
-      margin: 30px;
-    `
-
-    const FormDiv = styled('div')`
-      display: flex; 
-      flex-direction: row;
-      justify-content: center;
-      align-items: center; 
-      margin-top: 30px;
-      
-    `;
-
-    const MainDiv = styled('div')`
-      padding: 10px; 
-      display: flex; 
-      justify-content: center; 
-      flex-direction: column;
-      align-items: center;
-    `;
 
     return <MainDiv>
         <h2>Welcome to the chat</h2>
