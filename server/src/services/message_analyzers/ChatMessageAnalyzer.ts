@@ -1,4 +1,4 @@
-import {ChatMessage} from "../models/ChatMessage";
+import {ChatMessage} from "../../models/ChatMessage";
 
 class ChatMessageAnalyzer {
     public updateMessageKind(chatMessage: ChatMessage): void {

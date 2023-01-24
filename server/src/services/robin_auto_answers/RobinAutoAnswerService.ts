@@ -9,10 +9,10 @@ class RobinAutoAnswerService {
 
 
     public tryToAutoAnswer(chatMessage: ChatMessage): void {
-        const userName = userInfosHolder.getUserNameByUserId(chatMessage.userId);
-
 
         if (chatMessage.messageKind === "Question") {
+            const userName = userInfosHolder.getUserNameByUserId(chatMessage.userId);
+
             const answerFromPreviousMessages = robinAnswerFromPrevOverMemoryService.getAnswerFromPreviousMessages(chatMessage);
 
             let robinMessageText = null;
@@ -28,6 +28,7 @@ class RobinAutoAnswerService {
                 text: robinMessageText
             });
         }
+
     }
 
 

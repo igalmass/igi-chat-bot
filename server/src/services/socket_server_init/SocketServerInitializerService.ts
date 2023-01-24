@@ -1,9 +1,9 @@
 import {Server as HttpServer} from 'http';
 import {Socket, Server} from 'socket.io';
 import socketMessageEmitterService from "../common/SocketMessageEmitterService";
-import handshakeService from "../event_handlers/HandshakeService";
-import disconnectService from "../event_handlers/DisconnectService";
-import newMessageService from "../event_handlers/NewMessageService";
+import handshakeService from "../socket_event_handlers/HandshakeService";
+import disconnectService from "../socket_event_handlers/DisconnectService";
+import newMessageService from "../socket_event_handlers/NewMessageService";
 
 export class SocketServerInitializerService {
 

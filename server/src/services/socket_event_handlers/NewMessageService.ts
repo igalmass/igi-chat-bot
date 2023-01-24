@@ -3,7 +3,7 @@ import {ChatMessage} from "../../models/ChatMessage";
 import socketInfosHolder from "../data_holders/UserInfosHolder";
 import socketMessageEmitterService from "../common/SocketMessageEmitterService";
 import messagesHolder from "../data_holders/MessagesHolder";
-import chatMessageAnalyzer from "../ChatMessageAnalyzer";
+import chatMessageAnalyzer from "../message_analyzers/ChatMessageAnalyzer";
 import robinAutoAnswerService from "../robin_auto_answers/RobinAutoAnswerService";
 
 class NewMessageService {
