@@ -1,6 +1,7 @@
 import {ChatUserInfo} from "../../models/ChatUserInfo";
 
 class UserInfoService {
+
     public isLoggedInUserBySocketId = (socketId: string, loggedInUserSocketId: string | undefined): boolean => {
         return loggedInUserSocketId === socketId;
     }

@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import MainPage from "./components/ui/_main/MainPage";
 import {Provider} from "react-redux";
-import store from "./store";
+import store from "./store/Store";
 
 function App() {
   return (

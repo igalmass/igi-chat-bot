@@ -1,18 +1,15 @@
 import React, {ReactElement, useEffect, useState} from "react";
 import LoginPage from "../login/LoginPage";
 import ChatMainPage from "../chat/chat-main-page/ChatMainPage";
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../store";
+import { useSelector } from "react-redux";
+import {RootState} from "../../../store/Store";
 
 interface Props {
     // prop1: string
 }
 
 const MainPage: React.FC<Props> = (props: Props): ReactElement => {
-    const allUserInfos = useSelector((state: RootState) => state.chatInfo.users);
     const theSocket = useSelector((state: RootState) => state.socketInfo.socket);
-
-    const dispatch = useDispatch();
 
     const disconnectTheSocket = () => {
         console.log('disconnecting the socket [1]', theSocket);

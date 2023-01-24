@@ -4,7 +4,7 @@ import {UsersMainDiv, DisconnectButton, ConnectedUsersLabel} from './UsersStyled
 import User from "./User";
 import {styled} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../../../store";
+import {RootState} from "../../../../store/Store";
 import disconnectHandlerService from "../../../services/socket_events/DisconnectHandlerService";
 import {Socket} from "socket.io-client";
 

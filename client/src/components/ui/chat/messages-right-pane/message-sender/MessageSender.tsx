@@ -3,7 +3,7 @@ import {Button, TextField} from "@mui/material";
 import styled from "@emotion/styled";
 import chatMessageSenderService from "../../../../services/socket_events/ChatMessageSenderService";
 import {useSelector} from "react-redux";
-import {RootState} from "../../../../../store";
+import {RootState} from "../../../../../store/Store";
 import userInfoService from "../../../../services/utils/UserInfoService";
 import {Socket} from "socket.io-client";
 
@@ -18,9 +18,17 @@ const MessageSenderRootDiv = styled.div`
   align-items: center;
   margin: 30px;
   background-color: #cbd2c1;
+  
 `
 
-const MessageSender: React.FC<Props> = (props: Props): ReactElement => {
+const MyTextFiled = styled(TextField)`
+    flex-grow: 2;
+    width: 98%;
+  margin-top: 9px;
+    
+`
+
+                               const MessageSender: React.FC<Props> = (props: Props): ReactElement => {
     const [messageText, setMessageText] = useState("");
     const allUserInfos = useSelector((state: RootState) => state.chatInfo.users);
     const connectedSocketId = useSelector((state: RootState) => state.socketInfo.socketId);
@@ -46,8 +54,10 @@ const MessageSender: React.FC<Props> = (props: Props): ReactElement => {
         return !toEnable;
     }
 
+
+
     return <MessageSenderRootDiv>
-        <TextField style={{flexGrow: 2, width: '100%'}} variant="outlined" value={messageText}
+        <MyTextFiled variant="outlined" value={messageText}
                    onChange={onMessageToSendChanged} placeholder='Enter a text and press the "Send Message" Button'/>
         <Button style={{margin: 10, alignSelf: 'start', cursor: 'pointer'}} variant="contained"
                 onClick={onSendMessageClicked} disabled={toDisableTheSendMessageButton()}>

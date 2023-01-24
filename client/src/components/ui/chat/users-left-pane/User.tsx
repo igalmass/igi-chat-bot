@@ -3,7 +3,7 @@ import {UserDiv} from "./UsersStyled";
 import {ChatUserInfo} from "../../../models/ChatUserInfo";
 import userInfoService from "../../../services/utils/UserInfoService";
 import {useSelector} from "react-redux";
-import {RootState} from "../../../../store";
+import {RootState} from "../../../../store/Store";
 import { BottomHr } from "./UserStyled";
 
 interface Props {
