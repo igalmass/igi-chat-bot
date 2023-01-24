@@ -57,7 +57,7 @@ const MainPage: React.FC<Props> = (props: Props): ReactElement => {
 
     const sendMessage = (messageText: string): void => {
         const userId = getLoggedInUserIdBySocketId() as string;
-        const chatMessage: ChatMessage = {text: messageText, fromUserId: userId};
+        const chatMessage: ChatMessage = {text: messageText, userId: userId};
         debugger;
         (theSocket as Socket).emit('new_chat_message', chatMessage, () => {
             debugger;

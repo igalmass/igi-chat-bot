@@ -24,10 +24,10 @@ export const MessagesMainDiv = styled('div')`
 const Messages: React.FC<Props> = (props: Props): ReactElement => {
 
     return <MessagesMainDiv>
-        <div style= {{display: "flex", flexDirection: 'column', flexGrow: 100}}>
+        <div style= {{display: "flex", flexDirection: 'column', flexGrow: 100, maxHeight: '88.5%', overflow: 'auto', marginLeft: 20, marginRight: 10}}>
             {
-                props.allTheMessages.map(curChatMessage =>
-                    <Message key={curChatMessage.fromUserId}
+                props.allTheMessages.map((curChatMessage, index) =>
+                    <Message key={index}
                              chatMessage={curChatMessage}
                              isLoggedInUserByUserId={props.isLoggedInUserByUserId}
                              getUserName={props.getUserName}

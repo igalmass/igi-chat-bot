@@ -11,9 +11,9 @@ interface Props {
 
 const Message: React.FC<Props> = (props: Props): ReactElement => {
     const getChatMessageText = (chatMessage: ChatMessage): string => {
-        const userName = props.getUserName(chatMessage.fromUserId);
+        const userName = props.getUserName(chatMessage.userId);
         let result = `${userName}: ${chatMessage.text}`;
-        if (props.isLoggedInUserByUserId(chatMessage.fromUserId)) {
+        if (props.isLoggedInUserByUserId(chatMessage.userId)) {
             result = result + " (by me)";
         }
         return result;

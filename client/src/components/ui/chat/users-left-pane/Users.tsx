@@ -21,7 +21,9 @@ const Users: React.FC<Props> = (props: Props): ReactElement => {
         <hr style={{width: '90%', border: '1px solid green'}}/>
         <UserListDiv>{
             props.allUserInfos.map((curUserInfo: ChatUserInfo) =>
-                <User userInfo={curUserInfo} isLoggedInUserBySocketId={props.isLoggedInUserBySocketId}/>
+                <User key={curUserInfo.userId}
+                      userInfo={curUserInfo}
+                      isLoggedInUserBySocketId={props.isLoggedInUserBySocketId}/>
             )}
         </UserListDiv>
         <DisconnectButton variant={"outlined"} onClick={props.disconnectHandler}>Disconnect</DisconnectButton>
