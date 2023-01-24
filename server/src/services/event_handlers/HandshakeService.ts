@@ -1,12 +1,14 @@
 import {Socket} from "socket.io";
 import {ChatUserInfo} from "../../models/ChatUserInfo";
-import socketInfosHolder from "../data_holders/SocketInfosHolder";
+import socketInfosHolder from "../data_holders/UserInfosHolder";
 import {v4} from "uuid";
 import socketMessageEmitterService from "../common/SocketMessageEmitterService";
+import {ChatMessage} from "../../models/ChatMessage";
+import messagesHolder from "../data_holders/MessagesHolder";
 
 class HandshakeService {
     public registerToHandshakeEvent(socket: Socket) {
-        socket.on('handshake',  (userName, callback: (userId: string, users: ChatUserInfo[]) => void) => {
+        socket.on('handshake',  (userName, callback: (userId: string, users: ChatUserInfo[], messages: ChatMessage[]) => void) => {
             console.log('Handshake received from ' + socket.id);
             console.log(`The new userName is ${userName}`);
 
@@ -19,7 +21,7 @@ class HandshakeService {
 
                 if (userId) {
                     console.info('Sending callback for reconnect ...');
-                    callback(userId, socketInfosHolder.allUserInfos);
+                    callback(userId, socketInfosHolder.allUserInfos, messagesHolder.allTheMessages);
                     return;
                 }
             }
@@ -29,8 +31,9 @@ class HandshakeService {
             socketInfosHolder.allUserInfos.push({socketId: socket.id, userId: userId, userName})
             allSocketIds = socketInfosHolder.getAllSocketIds(); // Object.values(this.users);
 
-            console.info(`Sending callback for handshake with uid ${userId} and users`, allSocketIds);
-            callback(userId, socketInfosHolder.allUserInfos);
+            console.info(`Sending callback for handshake with uid ${userId} and users `, allSocketIds);
+            console.info(`and the messages: `, messagesHolder.allTheMessages)
+            callback(userId, socketInfosHolder.allUserInfos, messagesHolder.allTheMessages);
 
             socketMessageEmitterService.emitMessage(
                 'user_connected',

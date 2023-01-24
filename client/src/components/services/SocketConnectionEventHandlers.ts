@@ -2,6 +2,8 @@ import {Socket} from "socket.io-client";
 
 class SocketConnectionEventHandlers {
     public registerToConnectionEvents(socket: Socket) {
+
+
         socket.io.on('reconnect', (attempt) => {
             console.info('Reconnected on attempt: ' + attempt);
         })
@@ -18,6 +20,7 @@ class SocketConnectionEventHandlers {
             console.info('Reconnection failure');
             alert('Unable to connect to the web socket.')
         });
+
     }
 }
 

@@ -1,6 +1,6 @@
 import React, {ReactElement} from "react";
-import {ChatMessage} from "../../../models/ChatMessage";
-import JsonContainerDiv from "../../../samples/JsonContainerDiv";
+import {ChatMessage} from "../../../../models/ChatMessage";
+import JsonContainerDiv from "../../../../samples/JsonContainerDiv";
 
 interface Props {
     // prop1: string
@@ -20,7 +20,9 @@ const Message: React.FC<Props> = (props: Props): ReactElement => {
     }
 
     return <JsonContainerDiv theObject={getChatMessageText(props.chatMessage)}
-                             style={{marginTop: 20, marginBottom: 20, width: 'auto' }}/>
+                                  style={{marginTop: 20, marginBottom: 20, width: 'auto' }}/>
+
+
 
     // return <div style={{border: '1px solid blue', padding: '10px'}}>
     //     return <p>{getChatMessageText(props.chatMessage)}</p>

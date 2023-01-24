@@ -1,7 +1,7 @@
 import {ChatUserInfo} from "../../models/ChatUserInfo";
 import {ROBIN_THE_BOT_SOCKET_ID, ROBIN_THE_BOT_USER_ID, ROBIN_THE_BOT_USER_NAME} from "../../consts/RobinTheBotConsts";
 
-class SocketInfosHolder {
+class UserInfosHolder {
     public allUserInfos: ChatUserInfo[] = [ {
         userId: ROBIN_THE_BOT_USER_ID,
         userName: ROBIN_THE_BOT_USER_NAME,
@@ -20,6 +20,6 @@ class SocketInfosHolder {
 
 }
 
-const socketInfosHolder = new SocketInfosHolder();
+const socketInfosHolder = new UserInfosHolder();
 
 export default socketInfosHolder;

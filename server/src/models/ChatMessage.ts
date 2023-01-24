@@ -7,6 +7,6 @@ export interface ChatMessage {
 }
 
 export const ALL_THE_MESSAGES: ChatMessage[] = [
-    { fromUserId: '11111', messageKind: "Question", text: 'What is your name ?'},
+    { fromUserId: '11111', messageKind: "Question", text: 'What is your name 123 ?'},
     { fromUserId: '22222', messageKind: "Answer", text: 'My name is Dambo'}
 ]

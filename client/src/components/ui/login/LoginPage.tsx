@@ -25,6 +25,7 @@ const LoginPage: React.FC<Props> = (props: Props): ReactElement => {
         <h2>Welcome to the chat</h2>
         <h3>Robin the bot is waiting just for you!</h3>
         <h3>Please enter your name and click the "Connect" button</h3>
+        <h3>Please note that a question is a sentence ending with a question mark will be treated as a question.</h3>
         <form onSubmit={onSubmit}>
             <FormDiv>
                 <TextField variant="outlined" inputProps={{minLength: 12}} required value={userName} name="userName"

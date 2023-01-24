@@ -3,6 +3,7 @@ import {Socket, Server} from 'socket.io';
 import socketMessageEmitterService from "../common/SocketMessageEmitterService";
 import handshakeService from "../event_handlers/HandshakeService";
 import disconnectService from "../event_handlers/DisconnectService";
+import newMessageService from "../event_handlers/NewMessageService";
 
 export class SocketServerInitializerService {
 
@@ -30,6 +31,7 @@ export class SocketServerInitializerService {
 
         handshakeService.registerToHandshakeEvent(socket);
         disconnectService.registerToDisconnectEvent(socket);
+        newMessageService.registerToNewMessage(socket);
     }
 }
 

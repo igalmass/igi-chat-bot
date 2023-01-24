@@ -4,7 +4,7 @@
 import http from 'http';
 import express from 'express';
 import { SocketServerInitializerService } from './services/socket_server_init/SocketServerInitializerService';
-import socketInfosHolder from "./services/data_holders/SocketInfosHolder";
+import socketInfosHolder from "./services/data_holders/UserInfosHolder";
 
 const application = express();
 

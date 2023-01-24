@@ -1,1 +1,1 @@
-type ServerToClientEventNames = 'user_connected' | 'user_disconnected';
+export type ServerToClientEventNames = 'user_connected' | 'user_disconnected' | 'update_messages';

@@ -1,10 +1,9 @@
 import React, {ReactElement, useState} from "react";
 import {ChatUserInfo} from "../../../models/ChatUserInfo";
 import Users from "../users-left-pane/Users";
-import Messages from "../messages-right-pane/Messages";
+import Messages from "../messages-right-pane/message-list/Messages";
 import {ChatMessage} from "../../../models/ChatMessage";
 import styled from "@emotion/styled";
-import {Input} from "@mui/material";
 
 interface Props {
     disconnectHandler: () => void,
@@ -12,7 +11,8 @@ interface Props {
     allTheMessages: ChatMessage[],
     isLoggenInUserBySocketId: (socketId: string) => boolean,
     isLoggedInUserByUserId: (userId: string) => boolean,
-    getUserName: (userId: string) => string
+    getUserName: (userId: string) => string,
+    sendMessage: (messageText: string) => void
 }
 
 export const ChatMainPageMainDiv = styled('div')`
@@ -37,13 +37,12 @@ const ChatMainPage: React.FC<Props> = (props: Props): ReactElement => {
                    isLoggedInUserBySocketId={props.isLoggenInUserBySocketId}/>
 
             <Messages allTheMessages={props.allTheMessages}
-                      isLoggedInUserByUserId={props.isLoggedInUserByUserId} getUserName={props.getUserName}/>
-
+                      isLoggedInUserByUserId={props.isLoggedInUserByUserId}
+                      getUserName={props.getUserName}
+                      sendMessage={props.sendMessage}
+            />
 
         </UsersAndMessagesDiv>
-
-
-
     </ChatMainPageMainDiv>
 }
 
