@@ -2,14 +2,16 @@ import React, {FormEvent, ReactElement, useState} from "react";
 import _ from "lodash";
 import {TextField} from "@mui/material";
 import {MainDiv, FormDiv, MyButton} from './LoginPageStyled'
+import connectHandlerService from "../../services/socket_events/ConnectHandlerService";
+import {useDispatch} from "react-redux";
 
 interface Props {
-    connectHandler: (userName: string) => void
+    // connectHandler: (userName: string) => void
 }
 
 const LoginPage: React.FC<Props> = (props: Props): ReactElement => {
     const [userName, setUserName] = useState("Bilbo " + _.random(1, 1000));
-
+    const dispatch = useDispatch();
 
     const onUserNameChangedHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
         setUserName(event.target.value);
@@ -17,9 +19,8 @@ const LoginPage: React.FC<Props> = (props: Props): ReactElement => {
 
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        props.connectHandler(userName);
+        connectHandlerService.connect(userName, dispatch);
     }
-
 
     return <MainDiv>
         <h2>Welcome to the chat</h2>

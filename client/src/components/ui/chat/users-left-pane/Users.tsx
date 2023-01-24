@@ -3,10 +3,12 @@ import {ChatUserInfo} from "../../../models/ChatUserInfo";
 import {UsersMainDiv, DisconnectButton, ConnectedUsersLabel} from './UsersStyled';
 import User from "./User";
 import {styled} from "@mui/material";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../../store";
+import disconnectHandlerService from "../../../services/socket_events/DisconnectHandlerService";
+import {Socket} from "socket.io-client";
 interface Props {
-    disconnectHandler: () => void,
+    // disconnectHandler: () => void,
 }
 
 const UserListDiv = styled(`div`)`
@@ -15,6 +17,12 @@ const UserListDiv = styled(`div`)`
 
 const Users: React.FC<Props> = (props: Props): ReactElement => {
     const allUserInfos = useSelector((state: RootState) => state.chatInfo.users);
+    const theSocket = useSelector((state: RootState) => state.socketInfo.socket);
+    const dispatch = useDispatch();
+
+    const onDisconnectButtonClicked = () => {
+        disconnectHandlerService.disconnectHandler(theSocket as Socket, dispatch);
+    }
     return <UsersMainDiv>
         <ConnectedUsersLabel>Connected Users</ConnectedUsersLabel>
         <hr style={{width: '90%', border: '1px solid green'}}/>
@@ -25,7 +33,7 @@ const Users: React.FC<Props> = (props: Props): ReactElement => {
                       />
             )}
         </UserListDiv>
-        <DisconnectButton variant={"outlined"} onClick={props.disconnectHandler}>Disconnect</DisconnectButton>
+        <DisconnectButton variant={"outlined"} onClick={onDisconnectButtonClicked}>Disconnect</DisconnectButton>
 
     </UsersMainDiv>
 }
