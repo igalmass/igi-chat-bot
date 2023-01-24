@@ -1,5 +1,5 @@
 import {ChatMessage} from "../../../models/ChatMessage";
-import messagesHolder from "../../data_holders/MessagesHolder";
+import messagesHolder from "../../repositories/messages/MessageRepositoryOverMemory";
 import {IRobinAnswerFromPrevAnswersService} from "./IRobinAnswerFromPrevAnswersService";
 
 class RobinAnswerFromPrevOverMemoryService implements IRobinAnswerFromPrevAnswersService {
@@ -36,7 +36,7 @@ class RobinAnswerFromPrevOverMemoryService implements IRobinAnswerFromPrevAnswer
     }
 
     private getAllQuestionAndAnswerMessages(): ChatMessage[] {
-        const messagesToCheck = messagesHolder.allTheMessages.filter((chatMessage) =>
+        const messagesToCheck = messagesHolder.getAllMessages().filter((chatMessage) =>
             chatMessage.messageKind === "Question"
             ||
             chatMessage.messageKind === "Answer");

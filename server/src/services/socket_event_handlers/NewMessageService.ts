@@ -1,8 +1,8 @@
 import {Socket} from "socket.io";
 import {ChatMessage} from "../../models/ChatMessage";
-import socketInfosHolder from "../data_holders/UserInfosHolder";
+import socketInfosHolder from "../repositories/UserInfosHolder";
 import socketMessageEmitterService from "../common/SocketMessageEmitterService";
-import messagesHolder from "../data_holders/MessagesHolder";
+import messagesHolder from "../repositories/messages/MessageRepositoryOverMemory";
 import chatMessageAnalyzer from "../message_analyzers/ChatMessageAnalyzer";
 import robinAutoAnswerService from "../robin_auto_answers/RobinAutoAnswerService";
 
@@ -24,7 +24,7 @@ class NewMessageService {
             socketMessageEmitterService.emitMessage(
                 'update_messages',
                 socketInfosHolder.getAllSocketIds(),
-                messagesHolder.allTheMessages);
+                messagesHolder.getAllMessages());
 
 
 

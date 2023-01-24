@@ -1,8 +1,11 @@
 import _ from 'lodash';
+import userInfosHolder from "../repositories/UserInfosHolder";
 
 class RobinEncouragementMessageCreatorService {
 
-    public getRobinEncouragementMessage(userName?: string): string {
+    public getRobinEncouragementMessage(userId?: string): string {
+        const userName = userInfosHolder.getUserNameByUserId(userId as string);
+
         let result = "";
         const random = _.random(0,100) % 2;
 

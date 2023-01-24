@@ -1,10 +1,10 @@
 import {Socket} from "socket.io";
 import {ChatUserInfo} from "../../models/ChatUserInfo";
-import socketInfosHolder from "../data_holders/UserInfosHolder";
+import socketInfosHolder from "../repositories/UserInfosHolder";
 import {v4} from "uuid";
 import socketMessageEmitterService from "../common/SocketMessageEmitterService";
 import {ChatMessage} from "../../models/ChatMessage";
-import messagesHolder from "../data_holders/MessagesHolder";
+import messagesHolder from "../repositories/messages/MessageRepositoryOverMemory";
 
 class HandshakeService {
     public registerToHandshakeEvent(socket: Socket) {
@@ -21,7 +21,7 @@ class HandshakeService {
 
                 if (userId) {
                     console.info('Sending callback for reconnect ...');
-                    callback(userId, socketInfosHolder.allUserInfos, messagesHolder.allTheMessages);
+                    callback(userId, socketInfosHolder.allUserInfos, messagesHolder.getAllMessages());
                     return;
                 }
             }
@@ -32,8 +32,8 @@ class HandshakeService {
             allSocketIds = socketInfosHolder.getAllSocketIds(); // Object.values(this.users);
 
             console.info(`Sending callback for handshake with uid ${userId} and users `, allSocketIds);
-            console.info(`and the messages: `, messagesHolder.allTheMessages)
-            callback(userId, socketInfosHolder.allUserInfos, messagesHolder.allTheMessages);
+            console.info(`and the messages: `, messagesHolder.getAllMessages())
+            callback(userId, socketInfosHolder.allUserInfos, messagesHolder.getAllMessages());
 
             socketMessageEmitterService.emitMessage(
                 'user_connected',
