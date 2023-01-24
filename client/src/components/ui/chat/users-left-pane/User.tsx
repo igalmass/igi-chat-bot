@@ -1,23 +1,22 @@
 import React, {ReactElement} from "react";
 import {UserDiv} from "./UsersStyled";
 import {ChatUserInfo} from "../../../models/ChatUserInfo";
-import styled from "@emotion/styled";
+import userInfoService from "../../../services/utils/UserInfoService";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../../store";
+import { BottomHr } from "./UserStyled";
 
 interface Props {
     userInfo: ChatUserInfo,
-    isLoggedInUserBySocketId: (socketId: string) => boolean
 }
 
-const BottomHr = styled(`hr`)`
-
-  border: 1px solid #a7b6a7;
-`
-
 const User: React.FC<Props> = (props: Props): ReactElement => {
+    const loggedInSocketId = useSelector((state: RootState) => state.socketInfo.socketId);
+
     const getUserDescription = (curUserInfo: ChatUserInfo) => {
 
         let result = `${curUserInfo.userName}`;
-        if (props.isLoggedInUserBySocketId(curUserInfo.socketId)) {
+        if (userInfoService.isLoggedInUserBySocketId(curUserInfo.socketId, loggedInSocketId)) {
             result = result + " (me)";
         }
 

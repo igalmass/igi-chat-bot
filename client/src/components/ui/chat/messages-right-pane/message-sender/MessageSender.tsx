@@ -1,10 +1,15 @@
 import React, {ReactElement, useState} from "react";
 import {Button, TextField} from "@mui/material";
 import styled from "@emotion/styled";
+import chatMessageSenderService from "../../../../services/socket_events/ChatMessageSenderService";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../../../store";
+import userInfoService from "../../../../services/utils/UserInfoService";
+import {Socket} from "socket.io-client";
 
 interface Props {
     // prop1: string
-    sendMessage: (messageText: string) => void
+    // sendMessage: (messageText: string) => void
 }
 
 const MessageSenderRootDiv = styled.div`
@@ -17,13 +22,22 @@ const MessageSenderRootDiv = styled.div`
 
 const MessageSender: React.FC<Props> = (props: Props): ReactElement => {
     const [messageText, setMessageText] = useState("");
+    const allUserInfos = useSelector((state: RootState) => state.chatInfo.users);
+    const connectedSocketId = useSelector((state: RootState) => state.socketInfo.socketId);
+    const theSocket = useSelector((state: RootState) => state.socketInfo.socket);
+
 
     const onMessageToSendChanged = (event: React.ChangeEvent<HTMLInputElement>): void => {
         setMessageText(event.target.value);
     }
 
+    const getLoggedInUserId = (): string | undefined => {
+        return userInfoService.getLoggedInUserInfoBySocketId(allUserInfos, connectedSocketId)?.userId;
+    }
+
     const onSendMessageClicked = (): void => {
-        props.sendMessage(messageText);
+        // props.sendMessage(messageText);
+        chatMessageSenderService.sendMessage(messageText, allUserInfos, getLoggedInUserId(), theSocket as Socket);
 
     }
 

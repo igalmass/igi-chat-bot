@@ -1,15 +1,12 @@
-import React, {ReactElement, useState} from "react";
-import {ChatMessage} from "../../../../models/ChatMessage";
+import React, {ReactElement} from "react";
 import Message from "./Message";
 import styled from "@emotion/styled";
 import MessageSender from "../message-sender/MessageSender";
+import {useSelector} from "react-redux";
+import {RootState} from "../../../../../store";
 
 interface Props {
-    allTheMessages: ChatMessage[],
-    isLoggedInUserByUserId: (userId: string) => boolean,
-    getUserName: (userId: string) => string,
-    sendMessage: (messageText: string) => void
-
+    // sendMessage: (messageText: string) => void
 }
 
 export const MessagesMainDiv = styled('div')`
@@ -22,20 +19,19 @@ export const MessagesMainDiv = styled('div')`
 `;
 
 const Messages: React.FC<Props> = (props: Props): ReactElement => {
+    const allTheMessages = useSelector((state: RootState) => state.chatInfo.messages);
 
     return <MessagesMainDiv>
         <div style= {{display: "flex", flexDirection: 'column', flexGrow: 100, maxHeight: '88.5%', overflow: 'auto', marginLeft: 20, marginRight: 10}}>
             {
-                props.allTheMessages.map((curChatMessage, index) =>
+                allTheMessages.map((curChatMessage, index) =>
                     <Message key={index}
                              chatMessage={curChatMessage}
-                             isLoggedInUserByUserId={props.isLoggedInUserByUserId}
-                             getUserName={props.getUserName}
                     />)
             }
 
         </div>
-        <MessageSender sendMessage={props.sendMessage}/>
+        <MessageSender />
     </MessagesMainDiv>
 
 }

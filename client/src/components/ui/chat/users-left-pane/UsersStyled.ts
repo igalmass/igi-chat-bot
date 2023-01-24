@@ -11,11 +11,6 @@ export const UsersMainDiv = styled('div')`
 `
 
 export const UserDiv = styled('div')`
-  // padding: 5px;
-  
-  // border: 1px solid red;
-  // border-radius: 20px;
-  //margin-top: 20px;
   margin-left: 10px;
   margin-right: 10px;
 `
@@ -26,7 +21,5 @@ export const DisconnectButton = styled(Button)`
 
 export const ConnectedUsersLabel = styled('h3')`
     align-self: center;
-    // justify-self: center;
-
 `
 
