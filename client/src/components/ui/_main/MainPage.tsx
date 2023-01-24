@@ -6,16 +6,23 @@ import {ChatUserInfo} from "../../models/ChatUserInfo";
 import {THE_SOCKET_SETTINGS} from "../../_settings/ChatSocketSettings";
 import socketConnectionEventHandlers from "../../services/SocketConnectionEventHandlers";
 import {ChatMessage} from "../../models/ChatMessage";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../../store";
+import {chatInfoActions} from "../../../store/ChatInfoSlice";
+import {socketInfoActions} from "../../../store/SocketInfoSlice";
+
 
 interface Props {
     // prop1: string
 }
 
 const MainPage: React.FC<Props> = (props: Props): ReactElement => {
-    const [theSocket, setTheSocket] = useState<Socket | null>(null);
-    const [theSocketId, setTheSocketId] = useState<String | null>(null);
-    const [allUserInfos, setAllUserInfos] = useState<ChatUserInfo[]>([]);
-    const [allTheMessages, setAllTheMessages] = useState<ChatMessage[]>([]);
+    const allTheMessages = useSelector((state: RootState) => state.chatInfo.messages);
+    const allUserInfos = useSelector((state: RootState) => state.chatInfo.users);
+    const theSocket = useSelector((state: RootState) => state.socketInfo.socket);
+    const theSocketId: string | undefined = useSelector((state: RootState) => state.socketInfo.socketId);
+
+    const dispatch = useDispatch();
 
     const disconnectTheSocket = () => {
         console.log('disconnecting the socket [1]', theSocket);
@@ -38,10 +45,10 @@ const MainPage: React.FC<Props> = (props: Props): ReactElement => {
     const connectHandler = (userName: string) => {
         const newSocket: Socket = io(THE_SOCKET_SETTINGS.uri, THE_SOCKET_SETTINGS.opts);
         newSocket.on('connect', () => {
-            setTheSocketId(newSocket.id)
+            dispatch(socketInfoActions.setSocketId(newSocket.id))
         })
         newSocket.connect();
-        setTheSocket(newSocket);
+        dispatch(socketInfoActions.setSocket(newSocket));
         startListeners(newSocket);
         sendHandshake(newSocket, userName);
     }
@@ -50,8 +57,8 @@ const MainPage: React.FC<Props> = (props: Props): ReactElement => {
         console.log('sending handshake ...');
         socket.emit('handshake', userName, (userId: string, allUserInfos: ChatUserInfo[], allChatMessages: ChatMessage[]) => {
             console.log('got handshake response');
-            setAllUserInfos(allUserInfos);
-            setAllTheMessages(allChatMessages);
+            dispatch(chatInfoActions.updateUsers(allUserInfos));
+            dispatch(chatInfoActions.updateMessages(allChatMessages));
         });
     }
 
@@ -70,18 +77,18 @@ const MainPage: React.FC<Props> = (props: Props): ReactElement => {
         //  user connected event
         socket.on('user_connected', (allUsers: ChatUserInfo[]) => {
             console.info('User connected, new user list received.', allUsers);
-            setAllUserInfos(allUsers);
+            dispatch(chatInfoActions.updateUsers(allUsers));
             // SocketDispatch({type: 'update_users', payload: users});
         })
 
         socket.on('user_disconnected', (allUsers: ChatUserInfo[]) => {
             console.info('get user_disconnected event with payload ', allUsers);
             // SocketDispatch({type: 'remove_user', payload: uid});
-            setAllUserInfos(allUsers);
+            dispatch(chatInfoActions.updateUsers(allUsers));
         });
 
         socket.on('update_messages', (allTheMessages: ChatMessage[]) => {
-            setAllTheMessages(allTheMessages);
+            dispatch(chatInfoActions.updateMessages(allTheMessages));
         });
 
         socketConnectionEventHandlers.registerToConnectionEvents(socket);
@@ -91,7 +98,8 @@ const MainPage: React.FC<Props> = (props: Props): ReactElement => {
         if (theSocket) {
             theSocket.disconnect();
         }
-        setTheSocket(null);
+        dispatch(socketInfoActions.setSocket(undefined));
+        dispatch(socketInfoActions.setSocketId(undefined));
     }
 
     const isLoggenInUserBySocketId = (socketId: string): boolean => {
@@ -111,7 +119,7 @@ const MainPage: React.FC<Props> = (props: Props): ReactElement => {
     }
 
 
-    const getUserName = (userId: string): string => {
+    const getUserNameByUserId = (userId: string): string => {
         const chatUser = allUserInfos.find(curUserInfo => curUserInfo.userId === userId);
 
         let result = `User #${userId}`;
@@ -132,7 +140,7 @@ const MainPage: React.FC<Props> = (props: Props): ReactElement => {
                               allTheMessages={allTheMessages}
                               isLoggenInUserBySocketId={isLoggenInUserBySocketId}
                               isLoggedInUserByUserId={isLoggedInUserByUserId}
-                              getUserName={getUserName}
+                              getUserName={getUserNameByUserId}
                               sendMessage={sendMessage}
                 />}
         </>
