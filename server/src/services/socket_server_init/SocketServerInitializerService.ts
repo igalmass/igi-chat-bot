@@ -31,7 +31,7 @@ export class SocketServerInitializerService {
 
         handshakeService.registerToHandshakeEvent(socket);
         disconnectService.registerToDisconnectEvent(socket);
-        newMessageService.registerToNewMessage(socket);
+        newMessageService.registerToNewMessageEvent(socket);
     }
 }
 

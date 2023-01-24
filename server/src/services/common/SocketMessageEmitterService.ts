@@ -1,6 +1,6 @@
 import {ROBIN_THE_BOT_SOCKET_ID} from "../../consts/RobinTheBotConsts";
 import {Server} from "socket.io";
-import {ServerToClientEventNames} from "../../consts/ServerToClientEventNames";
+import {ServerToClientEventNames} from "./ServerToClientEventNames";
 import {ChatUserInfo} from "../../models/ChatUserInfo";
 import {ChatMessage} from "../../models/ChatMessage";
 

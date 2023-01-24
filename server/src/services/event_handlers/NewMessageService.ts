@@ -7,7 +7,7 @@ import chatMessageAnalyzer from "../ChatMessageAnalyzer";
 import robinAutoAnswerService from "../robin_auto_answers/RobinAutoAnswerService";
 
 class NewMessageService {
-    public registerToNewMessage (socket: Socket): void {
+    public registerToNewMessageEvent (socket: Socket): void {
         socket.on('new_chat_message', (chatMessage: ChatMessage, callback: () => void) =>{
             console.log(`got chat message: ${JSON.stringify(chatMessage)}`);
             chatMessageAnalyzer.updateMessageKind(chatMessage);
