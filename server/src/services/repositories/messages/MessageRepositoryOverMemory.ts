@@ -2,8 +2,8 @@ import { ChatMessage} from "../../../models/ChatMessage";
 import {IMessageRepository} from "./IMessageRepository";
 
 export const INITIAL_DUMMY_MESSAGES: ChatMessage[] = [
-    { userId: '11111', messageKind: "Question", text: 'Q1Sample ?'},
-    { userId: '22222', messageKind: "Answer", text: 'Q1ANSWER'}
+    { userId: '11111', messageKind: "Question", text: 'Question Sample?'},
+    { userId: '22222', messageKind: "Answer", text: 'Answer Sample.'}
 ]
 
 class MessageRepositoryOverMemory implements IMessageRepository {

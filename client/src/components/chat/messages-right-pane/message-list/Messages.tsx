@@ -3,7 +3,7 @@ import Message from "./Message";
 import styled from "@emotion/styled";
 import MessageSender from "../message-sender/MessageSender";
 import {useSelector} from "react-redux";
-import {RootState} from "../../../../../store/Store";
+import {RootState} from "../../../../store/Store";
 import {MessagesDiv, MessagesMainDiv } from "./MessagesStyled";
 
 interface Props {

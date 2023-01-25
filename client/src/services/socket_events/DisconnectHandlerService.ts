@@ -1,4 +1,4 @@
-import {socketInfoActions} from "../../../store/SocketInfoSlice";
+import {socketInfoActions} from "../../store/SocketInfoSlice";
 import {Socket} from "socket.io-client";
 import {Dispatch} from "redux";
 

@@ -5,6 +5,7 @@
   "author": "Me of course",
   "license": "MIT",
   "scripts": {
+    "start-chatbot-server": "nodemon src/index.ts",
     "nodemon-dev-chatbot": "nodemon src/index.ts",
     "tsnd-chatbot-dev": "tsnd --respawn --files -r @babel/register --inspect -- src/index.ts",
     "nodemon-dev-chatbot-youtbe": "nodemon src/_from-youtube-tut/chat-server-from-youtube.ts",

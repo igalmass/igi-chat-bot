@@ -17,7 +17,7 @@ const LoginPage: React.FC<Props> = (props: Props): ReactElement => {
         setUserName(event.target.value);
     }
 
-    const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
         connectHandlerService.connect(userName, dispatch);
     }

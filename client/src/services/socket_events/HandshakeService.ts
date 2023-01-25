@@ -1,7 +1,7 @@
 import {Socket} from "socket.io-client";
 import {ChatUserInfo} from "../../models/ChatUserInfo";
 import {ChatMessage} from "../../models/ChatMessage";
-import {chatInfoActions} from "../../../store/ChatInfoSlice";
+import {chatInfoActions} from "../../store/ChatInfoSlice";
 import {Dispatch} from "redux";
 
 class HandshakeService {

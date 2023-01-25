@@ -1,5 +1,5 @@
 import {Socket} from "socket.io";
-import socketInfosHolder from "../repositories/UserInfosHolder";
+import socketInfosHolder from "../repositories/users/UserInfosHolder";
 import socketMessageEmitterService from "../common/SocketMessageEmitterService";
 
 class DisconnectService {

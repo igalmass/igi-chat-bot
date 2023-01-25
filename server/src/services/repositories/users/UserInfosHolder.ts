@@ -1,5 +1,5 @@
-import {ChatUserInfo} from "../../models/ChatUserInfo";
-import {ROBIN_THE_BOT_SOCKET_ID, ROBIN_THE_BOT_USER_ID, ROBIN_THE_BOT_USER_NAME} from "../../consts/RobinTheBotConsts";
+import {ChatUserInfo} from "../../../models/ChatUserInfo";
+import {ROBIN_THE_BOT_SOCKET_ID, ROBIN_THE_BOT_USER_ID, ROBIN_THE_BOT_USER_NAME} from "../../../consts/RobinTheBotConsts";
 
 class UserInfosHolder {
     public allUserInfos: ChatUserInfo[] = [{

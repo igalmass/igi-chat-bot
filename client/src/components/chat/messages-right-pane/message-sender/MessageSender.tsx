@@ -3,7 +3,7 @@ import {Button, TextField} from "@mui/material";
 import styled from "@emotion/styled";
 import chatMessageSenderService from "../../../../services/socket_events/ChatMessageSenderService";
 import {useSelector} from "react-redux";
-import {RootState} from "../../../../../store/Store";
+import {RootState} from "../../../../store/Store";
 import userInfoService from "../../../../services/utils/UserInfoService";
 import {Socket} from "socket.io-client";
 
@@ -18,18 +18,19 @@ const MessageSenderRootDiv = styled.div`
   align-items: center;
   margin: 30px;
   background-color: #cbd2c1;
-  
+
 `
 
 const MyTextFiled = styled(TextField)`
-    flex-grow: 2;
-    width: 98%;
+  flex-grow: 2;
+  width: 98%;
   margin-top: 9px;
-    
 `
 
-                               const MessageSender: React.FC<Props> = (props: Props): ReactElement => {
+
+const MessageSender: React.FC<Props> = (props: Props): ReactElement => {
     const [messageText, setMessageText] = useState("");
+
     const allUserInfos = useSelector((state: RootState) => state.chatInfo.users);
     const connectedSocketId = useSelector((state: RootState) => state.socketInfo.socketId);
     const theSocket = useSelector((state: RootState) => state.socketInfo.socket);
@@ -46,6 +47,7 @@ const MyTextFiled = styled(TextField)`
     const onSendMessageClicked = (): void => {
         // props.sendMessage(messageText);
         chatMessageSenderService.sendMessage(messageText, allUserInfos, getLoggedInUserId(), theSocket as Socket);
+        setMessageText("");
 
     }
 
@@ -55,11 +57,10 @@ const MyTextFiled = styled(TextField)`
     }
 
 
-
     return <MessageSenderRootDiv>
         <MyTextFiled variant="outlined" value={messageText}
-                   onChange={onMessageToSendChanged} placeholder='Enter a text and press the "Send Message" Button'/>
-        <Button style={{margin: 10, alignSelf: 'start', cursor: 'pointer'}} variant="contained"
+                     onChange={onMessageToSendChanged} placeholder='Enter a text and press the "Send Message" Button'/>
+        <Button style={{marginTop: 10, marginRight: 10, marginBottom: 10, marginLeft:20, alignSelf: 'start', cursor: 'pointer'}} variant="contained"
                 onClick={onSendMessageClicked} disabled={toDisableTheSendMessageButton()}>
             Send Message</Button>
     </MessageSenderRootDiv>

@@ -1,6 +1,6 @@
 import {Socket} from "socket.io";
 import {ChatUserInfo} from "../../models/ChatUserInfo";
-import socketInfosHolder from "../repositories/UserInfosHolder";
+import socketInfosHolder from "../repositories/users/UserInfosHolder";
 import {v4} from "uuid";
 import socketMessageEmitterService from "../common/SocketMessageEmitterService";
 import {ChatMessage} from "../../models/ChatMessage";

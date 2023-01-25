@@ -1,6 +1,6 @@
 import {io, Socket} from "socket.io-client";
 import {THE_SOCKET_SETTINGS} from "../../_settings/ChatSocketSettings";
-import {socketInfoActions} from "../../../store/SocketInfoSlice";
+import {socketInfoActions} from "../../store/SocketInfoSlice";
 import socketEventListenersService from "./SocketEventListenersService";
 import handshakeService from "./HandshakeService";
 import {Dispatch} from "redux";

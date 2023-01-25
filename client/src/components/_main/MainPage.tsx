@@ -2,7 +2,7 @@ import React, {ReactElement, useEffect, useState} from "react";
 import LoginPage from "../login/LoginPage";
 import ChatMainPage from "../chat/chat-main-page/ChatMainPage";
 import { useSelector } from "react-redux";
-import {RootState} from "../../../store/Store";
+import {RootState} from "../../store/Store";
 
 interface Props {
     // prop1: string

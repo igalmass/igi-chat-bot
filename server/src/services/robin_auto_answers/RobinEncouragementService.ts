@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import userInfosHolder from "../repositories/UserInfosHolder";
+import userInfosHolder from "../repositories/users/UserInfosHolder";
 
 class RobinEncouragementMessageCreatorService {
 

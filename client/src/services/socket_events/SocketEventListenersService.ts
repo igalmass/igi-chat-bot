@@ -1,6 +1,6 @@
 import {Socket} from "socket.io-client";
 import {ChatUserInfo} from "../../models/ChatUserInfo";
-import {chatInfoActions} from "../../../store/ChatInfoSlice";
+import {chatInfoActions} from "../../store/ChatInfoSlice";
 import {ChatMessage} from "../../models/ChatMessage";
 import socketConnectionEventHandlers from "./SocketConnectionEventHandlers";
 import {Dispatch} from "redux";

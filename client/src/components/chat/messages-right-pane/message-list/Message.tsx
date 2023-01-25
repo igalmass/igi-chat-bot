@@ -2,7 +2,7 @@ import React, {ReactElement} from "react";
 import {ChatMessage} from "../../../../models/ChatMessage";
 import JsonContainerDiv from "../../../_common/JsonContainerDiv";
 import {useSelector} from "react-redux";
-import {RootState} from "../../../../../store/Store";
+import {RootState} from "../../../../store/Store";
 import userInfoService from "../../../../services/utils/UserInfoService";
 
 interface Props {

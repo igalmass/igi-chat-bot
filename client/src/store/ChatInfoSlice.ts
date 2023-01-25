@@ -1,5 +1,5 @@
-import {ChatMessage} from "../components/models/ChatMessage";
-import {ChatUserInfo} from "../components/models/ChatUserInfo";
+import {ChatMessage} from "../models/ChatMessage";
+import {ChatUserInfo} from "../models/ChatUserInfo";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export interface IChatState {
@@ -13,10 +13,10 @@ const chatInfoSlice = createSlice ({
     initialState: initialChatState,
     reducers: {
         updateMessages (state, action: PayloadAction<ChatMessage[]>) {
-            state.messages = action.payload
+            state.messages = action.payload;
         },
         updateUsers (state, action: PayloadAction<ChatUserInfo[]>) {
-            state.users = action.payload
+            state.users = action.payload;
         }
     }
 })
